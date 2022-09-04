@@ -10,4 +10,4 @@ for line in reviews:
     comments = text[1]
     ratings = ratings.replace(" ", "")
     ratings = ratings.replace(".", "")
-print("hello")
+print(reviews)
