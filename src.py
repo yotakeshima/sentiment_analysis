@@ -1,5 +1,4 @@
 import re
-from tkinter import N
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
