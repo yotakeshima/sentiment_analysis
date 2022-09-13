@@ -54,55 +54,23 @@ stopwords = stopwords.words('english')
 
 train = train.replace(to_replace='None', value=np.nan).dropna()
 train = preprocess(train)
-
 vectors = vectorize(train)
 train['Vectors'] = vectors.tolist()
 
+accuracy = 0
 for i in range(0, 100):
     result = knn(train.iloc[i]['Vectors'], train, 10)
     print(str(i+1) + ': ', end='')
     if(result >= 0):
-        print(1)
+        if(int(train.iloc[i]['Labels']) == 1):
+            accuracy +=1
     else: 
-        print(-1)
-    
+        if(int(train.iloc[i]['Labels']) == -1):
+            accuracy += 1
+    print(accuracy) 
 
-# test = test.replace(to_replace='None', value=np.nan).dropna()
-# test = preprocess(test)
-# test_matrix = idf.fit_transform(test['Reviews'])
-# test_matrix = test_matrix.toarray()
+accuracy = (accuracy/len(100)) * 100
 
-# newArray = []
-# for x in train_matrix:
-#     newArray.append(1 - spatial.distance.cosine(x, train_matrix[2]))
+print('Accuracy for the test is: ' + str(accuracy) + '%')
 
-# train.sort_values(by=['Vectors'], inplace=True, ascending=False)
-# print(train['Vectors'])
-# result = 0
-# for i in range(1,10):
-#     print(train.iloc[i]['Vectors'])
-#     result += int(train.iloc[i]['Labels'])
-# print(result)
-    
-
-
-
-
-
-# idf = TfidfVectorizer()
-# idf_matrix = idf.fit_transform([new_train.iloc[0]['Reviews'],new_train.iloc[1]['Reviews']])
-
-
-# cv = CountVectorizer(stop_words='english')
-# cv_matrix = cv.fit_transform([new_train.iloc[0]['Reviews'],new_train.iloc[1]['Reviews']])
-
-
-# X = scipy.sparse.hstack([cv_matrix, idf_matrix])
-# X = X.toarray()
-# print(X)
-
-# result = spatial.distance.cosine(X[0], X[1])
-# print(result)
-
-# def knn(test, train, k):
     
