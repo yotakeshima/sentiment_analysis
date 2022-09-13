@@ -19,18 +19,29 @@ def testPrep(text):
     text.iloc[1] = text.iloc[1].translate(str.maketrans('','', string.punctuation))
     return text
 
-def vectorize(data):
+def vectorize(data, test):
     idf = TfidfVectorizer()
-    idf_matrix = idf.fit_transform(data.Reviews)
+    idf_matrix = idf.fit_transform([data.iloc[0]['Reviews']])
     cv = CountVectorizer(stop_words='english')
-    cv_matrix = cv.fit_transform(data.Reviews)
-    vectors = scipy.sparse.hstack([cv_matrix, idf_matrix])
-    vectors = vectors.toarray()
-    data.insert(2,"Vectors", vectors, True)
+    cv_matrix = cv.fit_transform([data.iloc[0]['Reviews']])
+    train_vector = scipy.sparse.hstack([cv_matrix, idf_matrix])
+    train_vector = train_vector.toarray()
+
+    test_idf_matrix = idf.fit_transform([test.Reviews])
+    test_cv_matrix = cv.fit_transform([test.Reviews])
+    test_vector = scipy.sparse.hstack([test_cv_matrix, test_idf_matrix])
+    test_vector = test_vector.toarray()
+    
+    # train_vector[0] = spatial.distance.cosine(train_vector[0], test_vector[0])
+    print(test_vector[0])
+    print(train_vector[0])
+  
+
+
 
 
 df = pd.read_csv('trainhw1new.txt', names=['Labels', 'Reviews'], sep='(?<=\d)\t|(?<=.)\t', usecols=range(2)) # Create a dataframe from trainhw1new.txt file. Then split the data into 2 columns by 'Labels' | 'Reviews' 
-test = df.iloc[0]
+test = df.iloc[1]
 train = df.iloc[1:10]
 
 train = preprocess(train)
@@ -39,7 +50,8 @@ new_train = train[['Labels','Reviews']].copy()
 
 
 print(train)
-print(new_train)
+
+vectorize(new_train, test)
 
 
 
