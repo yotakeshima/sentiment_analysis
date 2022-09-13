@@ -11,6 +11,7 @@ import re
 
 
 nltk.download('omw-1.4')
+nltk.download('wordnet')
 w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
 lemmatizer = WordNetLemmatizer()
 
@@ -26,7 +27,7 @@ def preprocess(text):
     text['Labels'] = text['Labels'].apply(lambda x: re.sub(r'[/.]', '', x))
     return text
 
-def vectorize(data, test):
+def vectorize(data):
     idf = TfidfVectorizer()
     idf_matrix = idf.fit_transform(data['Reviews'])
     idf_matrix = idf_matrix.toarray()
