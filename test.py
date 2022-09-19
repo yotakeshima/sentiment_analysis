@@ -4,7 +4,6 @@ from sklearn.model_selection import KFold
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
-from scipy import spatial
 import pandas as pd
 import numpy as np
 import nltk
@@ -39,7 +38,7 @@ def knn(test, train, k):
     result = 0
     newArray = pd.DataFrame(cosine_similarity(test, dense_output=True))
     print(newArray)
-    # train['Cosine'] = train['Vectors'].apply(lambda x: 1 - spatial.distance.cosine(x, test))
+    train['Cosine'] = train['Vectors'].apply(lambda x: 1 - spatial.distance.cosine(x, test))
     temp = train.nlargest(n=k, columns=['Cosine'])
     for i in range(0, len(temp)):
         result += int(temp.iloc[i]['Labels'])
@@ -55,7 +54,6 @@ stopwords = stopwords.words('english')
 train = train.replace(to_replace='None', value=np.nan).dropna()
 
 train = preprocess(train)
-# test = vectorize(train)
 cv = CountVectorizer()
 matrix = cv.fit_transform(train['Reviews'])
 matrix = matrix.todense()
