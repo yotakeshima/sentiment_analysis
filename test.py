@@ -38,7 +38,6 @@ def knn(test, train, k):
     result = 0
     newArray = pd.DataFrame(cosine_similarity(test, dense_output=True))
     print(newArray)
-    train['Cosine'] = train['Vectors'].apply(lambda x: 1 - spatial.distance.cosine(x, test))
     temp = train.nlargest(n=k, columns=['Cosine'])
     for i in range(0, len(temp)):
         result += int(temp.iloc[i]['Labels'])
