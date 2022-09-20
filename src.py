@@ -66,12 +66,6 @@ kf = KFold(n_splits=10)                     # initialize kf variable, splits int
 
 df = df.replace(to_replace=np.nan, value="1")
 df = preprocess(df)
-<<<<<<< HEAD
-cv = CountVectorizer()
-matrix = cv.fit_transform(df['Reviews'])
-matrix = matrix.todense()
-m_df = pd.DataFrame(matrix, colums=cv.get_feature_names_out())
-=======
 print("Finished Preprocessing...")
 m_df = vectorize(df)
 # cv = CountVectorizer()
@@ -83,7 +77,6 @@ test = m_df.loc[2].copy()
 # print(test)
 # print(train)
 dj = pd.DataFrame(cosine_similarity(m_df, dense_output=True))
->>>>>>> 745ff764d5efb8e9607216862edfdfa0b8117a15
 
 ndf = pd.concat([dj,df], axis=1)
 # temp = ndf.nlargest(n=11, columns=0)
