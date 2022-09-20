@@ -57,13 +57,6 @@ cv = CountVectorizer()
 matrix = cv.fit_transform(df['Reviews'])
 matrix = matrix.todense()
 m_df = pd.DataFrame(matrix, colums=cv.get_feature_names_out())
-result = kf.split(df)           # result variable takes just one of the Kfold splits.
-train = df.iloc[result[0]]                  
-test = df.iloc[result[1]]
-print(result)
-
-# print(test)
-# print(train)
 
 for train_idx, test_idx in kf.split(df):
     print(df.iloc[train_idx]['Reviews'])
