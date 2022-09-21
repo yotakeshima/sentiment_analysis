@@ -1,7 +1,6 @@
 
 from operator import concat
 from sklearn.feature_extraction.text import TfidfVectorizer
-from numpy import loadtxt
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
@@ -53,8 +52,6 @@ def knn(test, train, k):
         print(".",end="")
     f.close
     
-        
-
 def lemmatize_text(text):
     return [lemmatizer.lemmatize(w) for w in w_tokenizer.tokenize(text)]
 
