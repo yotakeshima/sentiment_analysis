@@ -35,23 +35,7 @@ def vectorize(data):
     test = pd.DataFrame(idf_matrix, columns=idf.get_feature_names_out())
     return test
 
-def knn(test, train, k, df, index):
-    accuracy = 0
-    result = 0
-    ndf = df.copy()
-    m_df = pd.DataFrame(cosine_similarity(train, [test], dense_output=True))
-    ndf = pd.concat([m_df,ndf], axis=1)
-    temp = ndf.nlargest(n=k, columns=0)
-    for i in range(0, k):
-        result += int(temp.iloc[i]['Labels'])
-    if(result >= 0 & int(df.iloc[index]['Labels']) == 1):
-        accuracy += 1
-    else:
-        if(int(df.iloc[index]['Labels']) == -1): 
-            accuracy +=1
-    print(index+1, ": ", result)  
-
-def knn2(test, train, k, df, index, labels):
+def knn(test, train, k, df, index, labels):
     accuracy = 0
     ndf = df.copy()
     m_df = pd.DataFrame(cosine_similarity(train, test, dense_output=True))
@@ -91,7 +75,7 @@ m_df = vectorize(df)
 for x in range(20,30):
     newLabels = []
     for train_idx, test_idx in kf.split(m_df):
-        knn2(m_df.loc[test_idx], m_df.loc[train_idx], x, df, test_idx, newLabels)
+        knn(m_df.loc[test_idx], m_df.loc[train_idx], x, df, test_idx, newLabels)
     df['NewLabels'] = newLabels
     m_acc = pd.concat([df['NewLabels'],df['Labels']], axis=1)
     accuracy = 0
