@@ -1,5 +1,3 @@
-
-from operator import concat
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.stem import WordNetLemmatizer
@@ -16,6 +14,7 @@ lemmatizer = WordNetLemmatizer()
 nltk.download('stopwords')
 stopwords = stopwords.words('english')
 
+#Cleans noise from the text data. Removes punctuation, numbers, stopwords. Converts all strings to lower case, and lemmatizes the reviews
 def preprocess(data):
     data['Reviews'] = data['Reviews'].apply(str.lower)
     data['Reviews'] = data['Reviews'].apply(lambda x: re.sub('[0-9]+', '', x))
@@ -29,6 +28,7 @@ def preprocess(data):
     data['Labels'] = data['Labels'].astype(np.int64)
     return data
 
+#Converts the 
 def vectorize(data):
     idf = TfidfVectorizer()
     idf_matrix = idf.fit_transform(data['Reviews'])
@@ -57,8 +57,7 @@ def lemmatize_text(text):
 
 train = pd.read_csv('trainhw1new.txt', names=['Labels', 'Reviews'], sep='(?<=\d)\t|(?<=.)\t', engine='python', usecols=range(2)) # Create a dataframe from trainhw1new.txt file. Then split the data into 2 columns by 'Labels' | 'Reviews' 
 test = open('testdatahw1.txt', "r")
-test = test.read()
-test = test.split("\n")
+test = test.read().split("\n")
 test = pd.DataFrame(test, columns=['Reviews'])
 train_size = train.shape[0]
 test_size = test.shape[0]               
@@ -73,5 +72,4 @@ m_df = vectorize(df)
 df_test = df.iloc[train_size:,:]
 test = m_df.iloc[:test_size,:]
 train = m_df.iloc[train_size:,:]
-newLabels = []
-knn(test, train, 15)
+knn(test, train, 21)
